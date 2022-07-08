@@ -7,7 +7,7 @@ import { AD1MockFiles, GX1MockFiles, Z1MockFiles } from './marketdata/__mocks__/
 
 let csvFilesToProcessCounter = 1;
 const allJsonFiles: Currency[][] = [];
-const allCsvFilesToProcess = [AD1MockFiles, GX1MockFiles, Z1MockFiles];
+const allCsvFilesToProcess = [AD1Files, GX1Files, Z1Files];
 /**
  * loop through all cvs path and return a json file
  */
