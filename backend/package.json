@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "createFile": "nodemon src/index.ts",
+    "sendFile": "nodemon src/rabbitmq/sender.ts",
+    "receiveQueues": "nodemon src/rabbitmq/receiver.ts",
     "test": "jest --watch",
     "test:unit": "jest unit",
     "test:int": "jest int",
@@ -15,18 +17,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^18.0.0",
+    "amqplib": "^0.10.0",
     "csvtojson": "^2.0.10",
-    "express": "^4.18.1",
     "nodemon": "^2.0.18",
     "papaparse": "^5.3.2",
     "ts-node": "^10.8.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "ws": "^8.8.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
+    "@types/amqplib": "^0.8.2",
     "@types/jest": "^28.1.3",
+    "@types/node": "^18.0.3",
     "@types/papaparse": "^5.3.2",
+    "@types/ws": "^8.5.3",
     "jest": "^28.1.1",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.5"

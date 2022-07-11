@@ -28,7 +28,8 @@ const mergeAllJsonFiles = (file: Currency[]) => {
 
 const convertFilesToCsv = () => {
   const opts = { quotes: false, header: true, columns: ['contract_name', 'timestamp', 'bid', 'ask'] };
-  const csv = Papa.unparse(sortByTimeStamp(allJsonFiles.flat()), opts);
+  let csv = Papa.unparse(sortByTimeStamp(allJsonFiles.flat()), opts);
+  csv += '\r\n';
   printOutCsvFile(csv);
 };
 
