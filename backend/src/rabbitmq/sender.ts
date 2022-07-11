@@ -29,6 +29,7 @@ amqp.connect('amqp://localhost', (connError: string, connection: Connection) => 
           channel.sendToQueue(queue, Buffer.from(JSON.stringify(line)));
           startIndex = ch + 1;
           csvTotalLines.push(line);
+          // uncomment the log to see the lines. It will slow the proces
           // console.log(`Sending line: ${line}`)
         }
       }
