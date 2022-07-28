@@ -20,10 +20,10 @@ export function sendQueuesToWebSocket(message: string) {
       });
 
       socket = ws;
-      ws.send(JSON.parse(message));
+      ws.send(message);
     });
     isConnected = true;
   } else if (isConnected) {
-    socket?.send(JSON.parse(message));
+    socket?.send(message);
   }
 }
