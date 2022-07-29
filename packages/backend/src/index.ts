@@ -41,6 +41,8 @@ const printOutCsvFile = (sortedCsv: string) => {
     if (!overWaterMark) {
       await new Promise(resolve => writeStream.once('drain', resolve));
     }
-    writeStream.end();
+    writeStream.end(() => {
+        console.log('File created');
+    });
   })();
 };

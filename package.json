@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "lerna": "^5.3.0"
+  },
+  "name": "rfqproc",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "lerna run start",
+    "createFile": "lerna run createFile",
+    "sendFile": "lerna run sendFile",
+    "receiveQueues": "lerna run receiveQueues",
+    "test:client": "lerna run test --scope=client",
+    "test:server": "lerna run test --scope=server"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
