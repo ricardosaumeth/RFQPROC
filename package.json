@@ -10,7 +10,8 @@
     "sendFile": "lerna run sendFile",
     "receiveQueues": "lerna run receiveQueues",
     "test:client": "lerna run test --scope=client",
-    "test:server": "lerna run test --scope=server"
+    "test:server": "lerna run test --scope=server",
+    "prettier": "prettier --write ."
   },
   "workspaces": [
     "packages/*"
