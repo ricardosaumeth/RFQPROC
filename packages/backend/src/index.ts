@@ -42,7 +42,7 @@ const printOutCsvFile = (sortedCsv: string) => {
       await new Promise(resolve => writeStream.once('drain', resolve));
     }
     writeStream.end(() => {
-        console.log('File created');
+      console.log('File created');
     });
   })();
 };

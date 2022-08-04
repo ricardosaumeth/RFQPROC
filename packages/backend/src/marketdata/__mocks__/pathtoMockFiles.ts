@@ -1,4 +1,4 @@
-import { FileTypes } from "../pathtoFiles";
+import { FileTypes } from '../pathtoFiles';
 
 export const AD1MockFiles: FileTypes = {
   name: 'AUD Curcy',
