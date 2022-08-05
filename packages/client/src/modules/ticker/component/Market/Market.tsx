@@ -22,7 +22,7 @@ const Market: FC<Props> = props => {
       headerName: 'Ccy',
       field: 'currency',
       cellStyle: () => ({
-        fontSize: '15px'
+        fontSize: '15px',
       }),
     },
     {

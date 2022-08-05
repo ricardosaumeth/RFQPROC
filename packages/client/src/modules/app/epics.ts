@@ -31,10 +31,10 @@ const bootstrap: Epic<Actions, Actions, RootState, Dependencies> = (action$, sta
                 const currencies = getCurrencies(state$.value);
                 const tickerActions = currencies.map(currency =>
                   TickerAction.subscribeToSymbol({
-                    symbol: currency,
+                    currency,
                   })
                 );
-                return merge(from(tickerActions));
+                return from(tickerActions);
               })
             )
           )

@@ -23,3 +23,5 @@ export const refDataReducer = (state = initialState, action: Actions) => {
       return state;
   }
 };
+
+export default refDataReducer;

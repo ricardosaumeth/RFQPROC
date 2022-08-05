@@ -5,7 +5,7 @@ export enum TICKER_ACTION_TYPES {
 }
 
 export interface SubcribeToSymbolActionPayload {
-  symbol: string;
+  currency: string;
 }
 
 export const TickerAction = {
