@@ -12,6 +12,8 @@ const Palette = {
   Border: '#424242',
   LightGray: 'rgba(245, 245, 245, 0.64)',
   DarkGray: '#63666D',
+  Sell: '#ff274b',
+  Buy: '#2d95ff',
 };
 
 export default Palette;

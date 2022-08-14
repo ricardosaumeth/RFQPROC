@@ -36,3 +36,7 @@ export const Header = styled.div`
 export const MarketPanel = styled.div`
   grid-area: market;
 `;
+
+export const TradesPanel = styled.div`
+  grid-area: trades;
+`;

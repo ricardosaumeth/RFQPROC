@@ -5,4 +5,7 @@ export interface Currency {
   volume: number;
   bid: number;
   ask: number;
+  lastBid: number;
+  lastAsk: number;
+  id: number;
 }
