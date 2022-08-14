@@ -1,7 +1,7 @@
 import amqp, { Connection, Channel } from 'amqplib/callback_api';
 import { setConnection, sendQueuesToWebSocket } from './ws';
 
-setConnection({ port: 8000, perMessageDeflate: false });
+setConnection({ port: 8000, perMessageDeflate: true });
 
 const config = {
   protocol: 'amqp',
@@ -34,8 +34,9 @@ amqp.connect(config, (connError: string, connection: Connection) => {
       queue,
       msg => {
         if (msg !== null) {
-          channel.ack(msg);
+          console.log(msg.content.toString());
           sendQueuesToWebSocket(msg.content.toString());
+          channel.ack(msg);
         } else {
           console.log('Consumer cancelled by server');
         }
