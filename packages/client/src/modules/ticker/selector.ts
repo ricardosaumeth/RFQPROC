@@ -10,8 +10,7 @@ const tickerSelector = (state: RootState) => {
 export const getTickers = createSelector(getCurrencies, tickerSelector, (currencies, ticker) => {
   if (!isEmpty(ticker)) {
     let updatedTickers = [];
-    // to do: Fix
-    updatedTickers = ['AUD Curcy', 'Z1 Index', 'GX1 Index'].map(currency => ({
+    updatedTickers = currencies.map(currency => ({
       ...ticker[currency],
     }));
     return updatedTickers?.filter(ticker => !isEmpty(ticker));

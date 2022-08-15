@@ -19,7 +19,7 @@ export const loadRefData: Epic<Actions, RefDataLoadAck | RefDataLoadNack, RootSt
         switchMap(result => {
           return result.json();
         }),
-        map(result => 
+        map(result =>
           RefDataAction.refDataLoadAck({
             currencies: result as string[],
           })
