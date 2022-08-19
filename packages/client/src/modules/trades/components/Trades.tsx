@@ -32,7 +32,6 @@ const Trades: FC<TradesProps> = props => {
         display: 'flex',
         justifyContent: 'flex-end',
       }),
-      type: 'numericColumn',
       valueFormatter: priceFormatter,
     },
     {

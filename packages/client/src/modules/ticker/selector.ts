@@ -1,4 +1,4 @@
-import { isEmpty, memoize } from 'lodash';
+import { isEmpty } from 'lodash';
 import { RootState } from 'modules/root';
 import { createSelector } from 'reselect';
 import { getCurrencies } from './../reference-data/selector';

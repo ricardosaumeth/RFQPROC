@@ -48,7 +48,7 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          `You {execution} {symbol} {notionalValue?.value} at a price of {price}`
+          You {execution} {symbol} {notionalValue?.value} at a price of {price}
         </Alert>
       </Snackbar>
     </Stack>

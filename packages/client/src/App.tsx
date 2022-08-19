@@ -28,7 +28,7 @@ function App() {
             </Widget>
           </MarketPanel>
           <TradesPanel>
-            <Widget title="Trades">
+            <Widget title="Trades Log">
               <Trades />
             </Widget>
           </TradesPanel>

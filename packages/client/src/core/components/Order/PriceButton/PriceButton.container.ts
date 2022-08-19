@@ -6,11 +6,15 @@ import PriceButton from './PriceButton';
 import { Ticker } from 'modules/ticker/types/Ticker';
 import { SendOrderActions } from './action';
 import { SelectionActions } from 'modules/selection/action';
+import { getTradeSelected } from 'modules/selection/selector';
+import { getNotionalValue } from '../Notional/selector';
 
 const mapStateToProps = (state: RootState) => {
+  const tradeSelected = getTradeSelected(state);
+  const notionalValue = getNotionalValue(state);
   return {
-    order: state.tradeSelected,
-    notionalValue: state.notionalValue,
+    order: tradeSelected,
+    notionalValue,
   };
 };
 

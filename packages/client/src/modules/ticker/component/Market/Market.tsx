@@ -39,7 +39,6 @@ const Market: FC<Props> = props => {
         display: 'flex',
         justifyContent: 'flex-end',
       }),
-      type: 'numericColumn',
       valueFormatter: priceFormatter,
     },
     {
@@ -69,6 +68,7 @@ const Market: FC<Props> = props => {
         rowStyle={{ cursor: 'pointer' }}
         columnDefs={columnDefs}
         rowData={tickers}
+        animateRows={true}
         rowClassRules={rowClassRules}
         getRowId={({ data }) => data?.currency}
         rowSelection={'single'}

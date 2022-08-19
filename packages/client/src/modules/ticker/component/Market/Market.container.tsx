@@ -1,5 +1,6 @@
 import { RootState } from 'modules/root';
 import { SelectionActions } from 'modules/selection/action';
+import { getTradeSelected } from 'modules/selection/selector';
 import { getTickers } from 'modules/ticker/selector';
 import { Ticker } from 'modules/ticker/types/Ticker';
 import { connect } from 'react-redux';
@@ -8,9 +9,10 @@ import Market, { DispatchProps } from './Market';
 
 const mapStateToProps = (state: RootState) => {
   const tickers = getTickers(state);
+  const tradeSelected = getTradeSelected(state);
   return {
     tickers,
-    tradeSelected: state.tradeSelected,
+    tradeSelected,
   };
 };
 

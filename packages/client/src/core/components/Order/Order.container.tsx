@@ -4,11 +4,11 @@ import { RootState } from 'modules/root';
 import { Ticker } from '../../../modules/ticker/types/Ticker';
 import { SelectionActions } from 'modules/selection/action';
 import Order from './Order';
+import { getTradeSelected } from 'modules/selection/selector';
 
-// add reselect
 const mapStateToProps = (state: RootState) => {
   return {
-    order: state.tradeSelected,
+    order: getTradeSelected(state),
   };
 };
 

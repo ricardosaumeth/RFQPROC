@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
 import { RootState } from 'modules/root';
 import OrderConfirmation from './OrderConfirmation';
+import { getTradeSelected } from 'modules/selection/selector';
+import { getOrder } from '../PriceButton/selector';
 
-// add reselect
 const mapStateToProps = (state: RootState) => {
+  const tradeSelected = getTradeSelected(state);
+  const orderData = getOrder(state);
+
   return {
-    orderData: state?.sendOrder,
-    tradeSelected: state.tradeSelected,
+    orderData,
+    tradeSelected,
   };
 };
 
