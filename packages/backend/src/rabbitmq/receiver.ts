@@ -30,13 +30,17 @@ amqp.connect(config, (connError: string, connection: Connection) => {
       durable: true,
     });
 
+    channel.prefetch(1);
+
     channel.consume(
       queue,
       msg => {
         if (msg !== null) {
-          console.log(msg.content.toString());
-          sendQueuesToWebSocket(msg.content.toString());
-          channel.ack(msg);
+          setTimeout(() => {
+            console.log(msg.content.toString());
+            sendQueuesToWebSocket(msg.content.toString());
+            channel.ack(msg);
+          }, 100);
         } else {
           console.log('Consumer cancelled by server');
         }
