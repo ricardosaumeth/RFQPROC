@@ -1,6 +1,10 @@
 import csvToJSON from 'csvtojson';
 import { Currency } from '../marketdata/types';
 
+let lastBid = 0;
+let lastAsk = 0;
+let counter = 0;
+
 export const sortByTimeStamp = (response: Currency[]) =>
   response.sort((x, y) => {
     const a = new Date(x.timestamp);
@@ -54,16 +58,23 @@ export const addBidAskHeader = (
   source: Currency[],
   callback: (value: Currency[] | PromiseLike<Currency[]>) => void
 ) => {
-  let lastBid = source[0].price;
-  let lastAsk = source[0].price;
+  let currentBid = source[0].price;
+  let currentAsk = source[0].price;
   const updatedSource = source.map(s => {
     if (s.type === 'B') {
-      lastBid = s.price;
+      currentBid = s.price;
     } else if (s.type === 'A') {
-      lastAsk = s.price;
+      currentAsk = s.price;
     }
-    s.bid = lastBid;
-    s.ask = lastAsk;
+
+    s.lastBid = lastBid;
+    s.lastAsk = lastAsk;
+    s.bid = currentBid;
+    s.ask = currentAsk;
+    s.id = counter++;
+
+    lastBid = s.bid;
+    lastAsk = s.ask;
 
     return {
       ...s,

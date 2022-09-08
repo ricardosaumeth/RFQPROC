@@ -1,26 +1,18 @@
 import React, { FC } from 'react';
-import { ColDef, RowClickedEvent } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import { DateTime } from 'luxon';
 import { priceFormatter, isValueIncreased } from 'modules/ag-grid/formatter';
 import { Ticker } from 'modules/ticker/types/Ticker';
-import { Container } from './Market.styled';
+import { Container } from './Trades.styled';
 import Palette from 'theme/style';
-import OrderPopup from 'core/components/Order';
-import OrderConfirmation from 'core/components/Order/OrderConfirmation';
 
-export interface MarketProps {
-  tickers?: Ticker[] | undefined;
+export interface TradesProps {
+  trades: Ticker[] | undefined;
 }
 
-export interface DispatchProps {
-  onClick: ({ currency, openModal }: { currency: Ticker; openModal: boolean }) => void;
-}
-
-export type Props = MarketProps & DispatchProps;
-
-const Market: FC<Props> = props => {
-  const { tickers, onClick } = props;
+const Trades: FC<TradesProps> = props => {
+  const { trades } = props;
   const columnDefs: ColDef[] = [
     {
       headerName: 'Ccy',
@@ -34,6 +26,7 @@ const Market: FC<Props> = props => {
     {
       headerName: 'Bid Price',
       field: 'bid',
+      enableCellChangeFlash: true,
       cellStyle: ({ data }) => ({
         color: `${isValueIncreased(data.bid, data.lastBid) ? Palette.Positive : Palette.Negative}`,
         display: 'flex',
@@ -44,6 +37,7 @@ const Market: FC<Props> = props => {
     {
       headerName: 'Ask Price',
       field: 'ask',
+      enableCellChangeFlash: true,
       cellStyle: ({ data }) => ({
         color: `${isValueIncreased(data.ask, data.lastAsk) ? Palette.Positive : Palette.Negative}`,
       }),
@@ -51,36 +45,21 @@ const Market: FC<Props> = props => {
     },
   ];
 
-  const rowClassRules = {
-    'selected-row': (params: any) => params.node.isSelected(),
-  };
-
-  const onRowClicked = (event: RowClickedEvent<any>) => {
-    onClick({
-      currency: event.data,
-      openModal: true,
-    });
-  };
-
   return (
     <Container className="ag-theme-balham-dark">
       <AgGridReact
-        rowStyle={{ cursor: 'pointer' }}
         columnDefs={columnDefs}
-        rowData={tickers}
-        animateRows={true}
-        rowClassRules={rowClassRules}
-        getRowId={({ data }) => data?.currency}
+        rowData={trades}
+        animateRows={false}
+        asyncTransactionWaitMillis={4000}
+        getRowId={({ data }) => data?.id}
         rowSelection={'single'}
         onGridReady={event => {
           event.api.sizeColumnsToFit();
         }}
-        onRowClicked={onRowClicked}
       ></AgGridReact>
-      <OrderPopup />
-      <OrderConfirmation />
     </Container>
   );
 };
 
-export default Market;
+export default Trades;

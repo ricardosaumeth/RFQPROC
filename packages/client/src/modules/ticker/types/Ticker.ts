@@ -1,6 +1,9 @@
 export interface Ticker {
-  currency: string;
-  timestamp: number;
-  bid: number;
-  ask: number;
+  id?: number;
+  currency?: string;
+  timestamp?: number;
+  bid?: number;
+  ask?: number;
+  lastBid?: number;
+  lastAsk?: number;
 }
