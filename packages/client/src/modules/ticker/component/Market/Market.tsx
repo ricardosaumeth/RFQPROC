@@ -14,7 +14,7 @@ export interface MarketProps {
 }
 
 export interface DispatchProps {
-  onClick: ({ currency, openModal: openModal }: { currency: Ticker; openModal: boolean }) => void;
+  onClick: ({ currency, openModal }: { currency: Ticker; openModal: boolean }) => void;
 }
 
 export type Props = MarketProps & DispatchProps;

@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Direction } from 'modules/trades/types';
-import { OrderConfirmationState } from '../PriceButton/reducer';
+import { OrderConfirmationState } from './reducer';
 import { SelectionState } from 'modules/selection/reducer';
 import { isEmpty } from 'lodash';
 
@@ -34,7 +34,7 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
   };
 
   useEffect(() => {
-    if (!tradeSelected.isModalOpen && !isEmpty(tradeSelected?.currency)) {
+    if (!tradeSelected.isModalOpen && !isEmpty(tradeSelected?.currency) && !isEmpty(currency)) {
       setConfirmatinMsg(true);
     }
   }, [tradeSelected]);

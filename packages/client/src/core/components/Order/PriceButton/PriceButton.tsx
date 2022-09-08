@@ -4,7 +4,8 @@ import { customNumberFormatter } from 'utils/formatNumber';
 import { Big, CenteringContainer, DirectionLabel, Pip, Price, Tenth, TradeButton } from './PriceButton.styled';
 import { Ticker } from 'modules/ticker/types/Ticker';
 import { SelectionState } from 'modules/selection/reducer';
-import { OrderConfirmationState } from './reducer';
+import { OrderConfirmationState } from '../OrderConfirmation/reducer';
+import { ExecutionAction } from 'services/executions/actions';
 
 const formatSimple = customNumberFormatter();
 
@@ -63,15 +64,15 @@ interface PriceButton {
 }
 
 export interface DispatchProps {
-  onSendOrder: (currency: Ticker, direction: Direction, notionalValue: { value: string }) => void;
+  onSendExecution: (currency: Ticker, direction: Direction, notionalValue: { value: string }) => void;
   onCloseModal: (currency: Ticker, openModal: boolean) => void;
 }
 
 export type Props = PriceButton & DispatchProps;
 
-const PriceButton: FC<Props> = ({ direction, order, notionalValue, onSendOrder, onCloseModal }) => {
+const PriceButton: FC<Props> = ({ direction, order, notionalValue, onCloseModal, onSendExecution }) => {
   const onSendOrderFn = () => {
-    onSendOrder(order?.currency as Ticker, direction, notionalValue);
+    onSendExecution(order?.currency as Ticker, direction, notionalValue);
     order?.currency && onCloseModal(order?.currency, false);
   };
 

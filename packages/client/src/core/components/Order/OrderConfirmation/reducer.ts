@@ -1,5 +1,5 @@
 import { Direction } from 'modules/trades/types';
-import { SEND_ORDER_ACTION_TYPES } from './action';
+import { SEND_ORDER_ACTION_TYPES } from '../PriceButton/action';
 import { Actions } from 'modules/root';
 import { Ticker } from 'modules/ticker/types/Ticker';
 

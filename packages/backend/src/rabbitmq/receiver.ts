@@ -3,19 +3,7 @@ import { setConnection, sendQueuesToWebSocket } from './ws';
 
 setConnection({ port: 8000, perMessageDeflate: true });
 
-const config = {
-  protocol: 'amqp',
-  hostname: 'localhost',
-  port: 5672,
-  username: 'guest',
-  password: 'guest',
-  locale: 'en_US',
-  frameMax: 0,
-  heartbeat: 60,
-  vhost: '/',
-};
-
-amqp.connect(config, (connError: string, connection: Connection) => {
+amqp.connect('amqp://localhost', (connError: string, connection: Connection) => {
   if (connError) {
     throw connError;
   }
