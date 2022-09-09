@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useOrderContext } from '../Order.context';
 import { CurrencySymbol, Input_, InputWrapper } from './Notional.styled';
+import { addDecimalPointsToNumberString, removeDecimalPointsToNumberString } from 'modules/ag-grid/formatter';
 
 type NotionalInputInnerProps = {
   id: string;
@@ -55,10 +56,7 @@ const NotionalInput: FC<NotionalInputProps> = ({ onClick, notionalValue }) => {
   }, [notionalValue_]);
 
   const onChangeNotionalValue = (e: string) => {
-    const amount = e;
-    if (!amount || amount.match(/^\d{1,}(\.\d{0,4})?$/)) {
-      setNotionalValue_(amount);
-    }
+    setNotionalValue_(removeDecimalPointsToNumberString(e));
   };
 
   return (
@@ -67,7 +65,7 @@ const NotionalInput: FC<NotionalInputProps> = ({ onClick, notionalValue }) => {
       base={base}
       valid={true}
       disabled={false}
-      value={notionalValue_}
+      value={addDecimalPointsToNumberString(notionalValue_)}
       onChange={e => {
         onChangeNotionalValue(e.target.value);
       }}
