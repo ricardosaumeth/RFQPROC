@@ -12,7 +12,7 @@ import { WsActions } from './../core/transport/actions';
 import { TickerActions } from './ticker/actions';
 import { SelectionActions } from './selection/action';
 import { NotionalValueActions } from 'core/components/Order/Notional/action';
-import { SendOrderActions } from 'core/components/Order/PriceButton/action';
+import { SendOrderActions } from 'core/components/Order/OrderConfirmation/action';
 import { ExecutionActions } from '../services/executions/actions';
 
 import { refDataReducer } from './reference-data/reducer';

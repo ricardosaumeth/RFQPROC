@@ -37,10 +37,10 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
     if (!tradeSelected.isModalOpen && !isEmpty(tradeSelected?.currency) && !isEmpty(currency)) {
       setConfirmatinMsg(true);
     }
-  }, [tradeSelected]);
+  }, [tradeSelected, currency]);
 
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
+    <Stack spacing={1} sx={{ width: '100%' }}>
       <Snackbar
         open={openConfirmationMsg}
         autoHideDuration={1500}

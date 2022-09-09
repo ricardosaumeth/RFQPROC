@@ -4,8 +4,6 @@ import { customNumberFormatter } from 'utils/formatNumber';
 import { Big, CenteringContainer, DirectionLabel, Pip, Price, Tenth, TradeButton } from './PriceButton.styled';
 import { Ticker } from 'modules/ticker/types/Ticker';
 import { SelectionState } from 'modules/selection/reducer';
-import { OrderConfirmationState } from '../OrderConfirmation/reducer';
-import { ExecutionAction } from 'services/executions/actions';
 
 const formatSimple = customNumberFormatter();
 

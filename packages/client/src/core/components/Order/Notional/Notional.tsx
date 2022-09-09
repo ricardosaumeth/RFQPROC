@@ -43,7 +43,7 @@ interface DispatchProps {
 type NotionalInputProps = NotionalInput & DispatchProps;
 
 const NotionalInput: FC<NotionalInputProps> = ({ onClick, notionalValue }) => {
-  const [notionalValue_, setNotionalValue_] = useState('1,000,000');
+  const [notionalValue_, setNotionalValue_] = useState('1000000');
   const { currency } = useOrderContext();
   const id_ = `notional-input-${currency?.id}`;
   const base = currency?.currency as string;
