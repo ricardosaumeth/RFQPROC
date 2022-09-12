@@ -1,6 +1,5 @@
-import { Ticker } from 'modules/ticker/types/Ticker';
 import { Epic, combineEpics, ofType } from 'redux-observable';
-import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { fromFetch } from 'rxjs/fetch';
 import { Dependencies } from 'modules/redux/store';
 import { Actions, RootState } from 'modules/root';
