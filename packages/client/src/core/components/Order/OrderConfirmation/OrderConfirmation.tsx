@@ -6,6 +6,7 @@ import { Direction } from 'modules/trades/types';
 import { OrderConfirmationState } from './reducer';
 import { SelectionState } from 'modules/selection/reducer';
 import { isEmpty } from 'lodash';
+import { addDecimalPointsToNumberString } from 'modules/ag-grid/formatter';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,6 +26,7 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
   const symbol = currency?.currency;
   const price = direction === Direction.Buy ? currency?.bid : currency?.ask;
   const execution = direction === Direction.Buy ? 'bought' : 'sold';
+  const notionalAmount = notionalValue?.value ? notionalValue.value : '';
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -37,10 +39,10 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
     if (!tradeSelected.isModalOpen && !isEmpty(tradeSelected?.currency) && !isEmpty(currency)) {
       setConfirmatinMsg(true);
     }
-  }, [tradeSelected]);
+  }, [tradeSelected, currency]);
 
   return (
-    <Stack spacing={2} sx={{ width: '100%' }}>
+    <Stack spacing={1} sx={{ width: '100%' }}>
       <Snackbar
         open={openConfirmationMsg}
         autoHideDuration={1500}
@@ -48,7 +50,7 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          You {execution} {symbol} {notionalValue?.value} at a price of {price}
+          You {execution} {symbol} {addDecimalPointsToNumberString(notionalAmount)} at a price of {price}
         </Alert>
       </Snackbar>
     </Stack>

@@ -5,7 +5,7 @@ import { Dependencies } from 'modules/redux/store';
 import { Actions, RootState } from 'modules/root';
 import { EXECUTION_ACTION_TYPES, SendExecutionActionPayload } from './actions';
 import { Direction } from 'modules/trades/types';
-import { SendOrderActions } from 'core/components/Order/PriceButton/action';
+import { SendOrderActions } from 'core/components/Order/OrderConfirmation/action';
 
 const URL = 'https://rfqwebapi.azurewebsites.net/RFQ';
 
@@ -16,20 +16,22 @@ export const sendExecution: Epic<Actions, Actions, RootState, Dependencies> = (a
       return fromFetch(URL, {
         method: 'POST',
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(createBodyMsg(action.payload)),
       }).pipe(
         switchMap(result => {
           return result.json();
         }),
-        map(() => {
-          return SendOrderActions.sendOrder({
-            currency: action.payload.currency,
-            direction: action.payload.direction,
-            notionalValue: action.payload.notionalValue,
-          });
+        map(data => {
+          if (action.payload.currency.id === data.clientTicketId) {
+            return SendOrderActions.sendOrder({
+              currency: action.payload.currency,
+              direction: data.direction,
+              notionalValue: action.payload.notionalValue,
+            });
+          }
+          throw 'Trades are different!!!';
         }),
         catchError(err => {
           throw 'Error in source. Details: ' + err;

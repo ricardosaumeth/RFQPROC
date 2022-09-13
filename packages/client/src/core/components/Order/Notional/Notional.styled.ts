@@ -1,4 +1,5 @@
-import { styled, Input } from '@mui/material';
+import { styled } from '@mui/material';
+import styledComponent from 'styled-components';
 
 export const InputWrapper = styled('div')`
   padding-right: 1.3rem;
@@ -13,7 +14,7 @@ export const CurrencySymbol = styled('label')`
   margin-right: 2px;
 `;
 
-export const Input_ = styled(Input)`
+export const Input_ = styledComponent.input`
   grid-area: Input;
   background: none;
   text-align: center;
