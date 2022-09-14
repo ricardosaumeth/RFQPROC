@@ -1,0 +1,16 @@
+{
+  "devtools_port": 9090,
+  "startup_app": {
+    "name": "rfqproc",
+    "url": "http://localhost:3000",
+    "uuid": "app-1663149869432-6009",
+    "icon": "http://cdn.openfin.co/YourApp/favicon.ico",
+    "frameConnect": "main-window",
+    "autoShow": true,
+    "resizable": true,
+    "maximizable": true
+  },
+  "runtime": {
+    "version": "stable"
+  }
+}

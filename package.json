@@ -12,7 +12,7 @@
     "test:client": "lerna run test --scope=client",
     "test:server": "lerna run test --scope=server",
     "prettier": "prettier --write .",
-    "openfin:dev": "openfin --launch --url http://localhost:3000"
+    "openfin:dev": "openfin --launch --config openfin.json"
   },
   "workspaces": [
     "packages/*"
