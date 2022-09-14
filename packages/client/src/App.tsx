@@ -4,11 +4,11 @@ import configureStore from 'modules/redux/store';
 import { AppAction } from 'modules/app/actions';
 import { Container, Content, Header, MarketPanel, TradesPanel } from 'App.styled';
 import Widget from 'core/components/Widget';
-import Market from 'modules/ticker/component/Market';
+import Market from 'modules/ticker/components/Market';
+import Trades from 'modules/trades/components';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 import 'theme/fonts.css';
-import Trades from 'modules/trades/components';
 
 function App() {
   const store = configureStore();
