@@ -9,10 +9,11 @@ import Palette from 'theme/style';
 
 export interface TradesProps {
   trades: Ticker[] | undefined;
+  showGridStoryBook?: boolean;
 }
 
 const Trades: FC<TradesProps> = props => {
-  const { trades } = props;
+  const { trades, showGridStoryBook } = props;
   const columnDefs: ColDef[] = [
     {
       headerName: 'Ccy',
@@ -57,6 +58,7 @@ const Trades: FC<TradesProps> = props => {
         onGridReady={event => {
           event.api.sizeColumnsToFit();
         }}
+        domLayout={showGridStoryBook ? 'autoHeight' : 'normal'}
       ></AgGridReact>
     </Container>
   );
