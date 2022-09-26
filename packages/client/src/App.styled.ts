@@ -40,3 +40,7 @@ export const MarketPanel = styled.div`
 export const TradesPanel = styled.div`
   grid-area: trades;
 `;
+
+export const BookPanel = styled.div` 
+  grid-area: book;
+`

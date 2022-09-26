@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'modules/redux/store';
 import { AppAction } from 'modules/app/actions';
-import { Container, Content, Header, MarketPanel, TradesPanel } from 'App.styled';
+import { BookPanel, Container, Content, Header, MarketPanel, TradesPanel } from 'App.styled';
 import Widget from 'core/components/Widget';
 import Market from 'modules/ticker/components/Market';
 import Trades from 'modules/trades/components';
+import Book from 'modules/book/components';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 import 'theme/fonts.css';
@@ -32,6 +33,11 @@ function App() {
               <Trades />
             </Widget>
           </TradesPanel>
+          <BookPanel>
+            <Widget title="Book">
+              <Book />
+            </Widget>
+          </BookPanel>
         </Content>
       </Container>
     </Provider>
