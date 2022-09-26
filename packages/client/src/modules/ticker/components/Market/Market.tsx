@@ -11,6 +11,7 @@ import OrderConfirmation from 'core/components/Order/OrderConfirmation';
 
 export interface MarketProps {
   tickers?: Ticker[] | undefined;
+  showGridStoryBook?: boolean;
 }
 
 export interface DispatchProps {
@@ -20,7 +21,7 @@ export interface DispatchProps {
 export type Props = MarketProps & DispatchProps;
 
 const Market: FC<Props> = props => {
-  const { tickers, onClick } = props;
+  const { tickers, onClick, showGridStoryBook } = props;
   const columnDefs: ColDef[] = [
     {
       headerName: 'Ccy',
@@ -76,6 +77,7 @@ const Market: FC<Props> = props => {
           event.api.sizeColumnsToFit();
         }}
         onRowClicked={onRowClicked}
+        domLayout={showGridStoryBook ? 'autoHeight' : 'normal'}
       ></AgGridReact>
       <OrderPopup />
       <OrderConfirmation />
