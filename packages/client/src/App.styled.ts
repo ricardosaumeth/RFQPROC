@@ -19,9 +19,9 @@ export const Content = styled.div`
   grid-template-areas:
     'header header header'
     'tickers tickers tickers'
-    'market candles candles'
+    'market candles depth'
     'trades book depth'
-    'footer footer footer'; ;
+    'footer footer footer'; 
 `;
 
 export const Header = styled.div`
@@ -43,4 +43,7 @@ export const TradesPanel = styled.div`
 
 export const BookPanel = styled.div` 
   grid-area: book;
+`
+export const CandlesPanel = styled.div` 
+  grid-area: candles;
 `
