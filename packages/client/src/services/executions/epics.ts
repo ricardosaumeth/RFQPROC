@@ -10,7 +10,7 @@ import { from } from 'rxjs';
 import { BookActions } from 'modules/book/actions';
 import { ClientId } from 'settings/clientId';
 
-const URL = 'https://rfqwebapi.azurewebsites.net/RFQ';
+const URL = 'https://rfqpoc.azurewebsites.net/RFQ';
 
 export const sendExecution: Epic<Actions, Actions, RootState, Dependencies> = (action$, state$, { connection }) =>
   action$.pipe(
