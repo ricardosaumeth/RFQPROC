@@ -1,4 +1,4 @@
 export enum ClientId {
-  ubs = 'ubsXY',
+  ubs = 'ubs',
   morganStanley = 'morgan stanley',
 }

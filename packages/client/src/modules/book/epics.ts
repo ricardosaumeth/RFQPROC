@@ -9,7 +9,7 @@ import { Order } from './types/order';
 import { ClientId } from 'settings/clientId';
 
 const clientId = ClientId.ubs;
-const URL = `https://rfqwebapi.azurewebsites.net/rfq/client?clientId=${clientId}`;
+const URL = `https://rfqpoc.azurewebsites.net/RFQ/client?clientId=${clientId}`;
 
 export const loadBookData: Epic<Actions, Actions, RootState, Dependencies> = (action$, state$, { connection }) =>
   action$.pipe(
