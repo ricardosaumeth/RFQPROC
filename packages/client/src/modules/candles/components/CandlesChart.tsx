@@ -2,94 +2,85 @@ import React, { FC, useEffect, useState } from 'react';
 import * as Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { Container } from './CandlesChart.styled';
+import Palette from 'theme/style';
+import { Candle } from '../types/Candle';
 import 'theme/Highchart';
-import { Ticker } from 'modules/ticker/types/Ticker';
-
-const MAX_TRADES = 10;
 
 export interface Props {
-  data: { bids: Ticker[] };
-  currency: string;
+  candles: Candle[];
+  currency?: string;
 }
 
 const CandlesChart: FC<Props> = props => {
-  const { data, currency } = props;
-  const [chartData, setDataChart] = useState<number[]>([]);
+  const { candles, currency } = props;
   const [chartOptions, setChartOptions] = useState<Highcharts.Options>({
-    title: {
-      text: 'Currency Prices',
-    },
     series: [
       {
-        type: 'spline',
-        name: currency,
+        type: 'candlestick',
         data: [],
       },
     ],
+
+    rangeSelector: {
+      selected: 1,
+      buttons: [
+        {
+          type: 'minute',
+          count: 5,
+          text: '5m',
+        },
+        {
+          type: 'minute',
+          count: 30,
+          text: '30m',
+        },
+        {
+          type: 'hour',
+          count: 1,
+          text: '1h',
+        },
+        {
+          type: 'hour',
+          count: 12,
+          text: '12h',
+        },
+        {
+          type: 'all',
+          text: 'All',
+        },
+      ],
+    },
   });
-  /**
-   *
-   */
-  useEffect(() => {
-    const data = chartData?.map((i: any) => parseFloat(i));
 
-    if (chartData?.length === 1) {
+  useEffect(() => {
+    if (candles && candles.length > 0) {
+      const data = candles
+        .map(({ timestamp, ...rest }: any) => ({
+          x: timestamp,
+          ...rest,
+        }))
+        .sort((a: any, b: any) => a.x - b.x);
       setChartOptions({
         series: [
           {
-            type: 'spline',
+            type: 'candlestick',
             name: currency,
-            data: [data, data],
+            data,
           },
         ],
-      });
-    } else if (chartData?.length > 1) {
-      setChartOptions({
-        series: [
-          {
-            type: 'spline',
-            name: currency,
-            data: data,
+        plotOptions: {
+          candlestick: {
+            color: Palette.Negative,
+            upColor: Palette.Positive,
           },
-        ],
+        },
       });
     }
-  }, [chartData]);
-
-  useEffect(() => {
-    if (chartData?.length === 0) {
-      if (data.bids?.length > 0) {
-        const loadDataSeries = data?.bids?.map((bid: any) => {
-          return bid.bid;
-        });
-
-        if (loadDataSeries) {
-          setDataChart(loadDataSeries);
-        }
-      }
-    } else {
-      const updatedDataSeriesInState = chartData.slice();
-      const lastBidInState = updatedDataSeriesInState.slice(chartData.length - 1)[0];
-      const lastBidInDataSeries = data?.bids?.pop();
-
-      if (lastBidInState !== lastBidInDataSeries?.bid) {
-        // only keep the top x trades, so we don't eventually fill up the memory
-        if (updatedDataSeriesInState.length > MAX_TRADES) {
-          updatedDataSeriesInState.pop();
-        }
-        updatedDataSeriesInState.push(lastBidInDataSeries?.bid as number);
-        setDataChart(updatedDataSeriesInState);
-      }
-    }
-  }, [data?.bids]);
-
-  useEffect(() => {
-    setDataChart([]);
-  }, [currency]);
+  }, [candles, currency]);
 
   return (
     <Container>
-      <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+      <HighchartsReact highcharts={Highcharts} options={chartOptions} constructorType={'stockChart'} />
     </Container>
   );
 };

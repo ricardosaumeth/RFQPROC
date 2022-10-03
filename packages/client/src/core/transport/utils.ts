@@ -8,6 +8,7 @@ export function fromStringToArray(str: string) {
   return removeCarriageReturn(str).split(',');
 }
 
-export function isHeaderRow(headerRowData: Ticker[]) {
-  return Array.isArray(headerRowData) && headerRowData[0] === 'contract_name';
+export function isHeaderRow(headerRowData: Ticker[] | string) {
+  const contractName = 'contract_name';
+  return (Array.isArray(headerRowData) && headerRowData[0] === contractName) || headerRowData === contractName;
 }
