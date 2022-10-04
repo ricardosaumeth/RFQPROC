@@ -14,10 +14,48 @@ export interface Props {
 const CandlesChart: FC<Props> = props => {
   const { candles, currency } = props;
   const [chartOptions, setChartOptions] = useState<Highcharts.Options>({
+    time: {
+      useUTC: false,
+    },
+    yAxis: [
+      {
+        labels: {
+          align: 'right',
+          x: -3,
+        },
+        title: {
+          text: 'OHLC',
+        },
+        height: '70%',
+        lineWidth: 2,
+        resize: {
+          enabled: true,
+        },
+      },
+      {
+        labels: {
+          align: 'right',
+          x: -3,
+        },
+        title: {
+          text: 'Volume',
+        },
+        top: '75%',
+        height: '25%',
+        offset: 0,
+        lineWidth: 2,
+      },
+    ],
     series: [
       {
         type: 'candlestick',
         data: [],
+      },
+      {
+        type: 'column',
+        name: 'Volume',
+        data: [],
+        yAxis: 1,
       },
     ],
 
@@ -54,18 +92,23 @@ const CandlesChart: FC<Props> = props => {
 
   useEffect(() => {
     if (candles && candles.length > 0) {
-      const data = candles
+      const ohlc = candles
         .map(({ timestamp, ...rest }: any) => ({
           x: timestamp,
           ...rest,
         }))
         .sort((a: any, b: any) => a.x - b.x);
+      const volumes = candles.map(({ timestamp, volume }) => [timestamp, volume]).sort((a, b) => a[0] - b[0]);
       setChartOptions({
         series: [
           {
             type: 'candlestick',
             name: currency,
-            data,
+            data: ohlc,
+          },
+          {
+            type: 'column',
+            data: volumes,
           },
         ],
         plotOptions: {
