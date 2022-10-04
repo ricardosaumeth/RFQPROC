@@ -17,7 +17,7 @@ function updateState(state: any, action: WsMessage) {
   const [currency, timestamp, bid, ask, lastBid, lastAsk, id] = action.payload;
 
   const newOrUpdatedTrade = { currency, timestamp, bid, ask, lastBid, lastAsk, id };
-
+  
   if (state?.currency && Array.isArray(state?.currency)) {
     const existingTradeIndex = state.currency.findIndex((t: Ticker) => t.id === id);
     if (existingTradeIndex >= 0) {
@@ -38,6 +38,7 @@ export function tradesReducer(state = initialState, action: Actions) {
       }
 
       const updatedState = updateState(state, action);
+     
       return {
         ...state,
         currency: updatedState.splice(0, MAX_TRADES), // only keep the top x trades, so we don't eventually fill up the memory

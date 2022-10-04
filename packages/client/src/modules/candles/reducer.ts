@@ -1,10 +1,8 @@
-import { CANDLE_ACTION_TYPES } from './actions';
-import { Actions } from 'modules/root';
-import { isHeaderRow } from 'core/transport/utils';
-import { WsMessage } from './../../core/transport/actions';
+import { CANDLE_ACTION_TYPES, CandleActions } from './actions';
 import { isEmpty } from 'lodash';
+import { Candle } from './types/Candle';
 
-const MAX_TRADES = 300;
+const MAX_CANDLES = 100;
 
 export interface CandlesState {
   [currency: string]: any;
@@ -12,13 +10,7 @@ export interface CandlesState {
 
 const initialState: CandlesState = {};
 
-/**
- * create a candle for the first time
- * @param state
- * @param action
- * @returns
- */
-function createFirstEntryReducer(state: CandlesState, action: any) {
+function snapshotCandleReducer(state: CandlesState, action: Candle) {
   const { close, open, high, low, volume, timestamp } = action;
   return [
     {
@@ -32,30 +24,24 @@ function createFirstEntryReducer(state: CandlesState, action: any) {
   ];
 }
 
-function oneMinueCandleReducer(state: CandlesState, action: any) {
+function updateReducer(state: CandlesState, action: Candle) {
   const { close, open, high, low, volume, timestamp } = action;
-
   const updatedState = state?.slice();
-  if (updatedState.length >= MAX_TRADES) {
-    updatedState.shift();
-  }
 
   updatedState.push({ close, open, high, low, volume, timestamp });
-  return updatedState;
+  // restrict number of candles so we don't eventully fill up the memory;
+  return updatedState.slice(0, MAX_CANDLES);
 }
 
-export function candlesReducer(state = initialState, action: any) {
+export function candlesReducer(state = initialState, action: CandleActions) {
   switch (action.type) {
     case CANDLE_ACTION_TYPES.CANDLE_SUBSCRIBE_TO_SYMBOL: {
-      if (isHeaderRow(action.payload?.symbol)) {
-        return state;
-      }
-
-      const { data, symbol } = action.payload;
+      const { data } = action.payload;
       if (!isEmpty(data)) {
-        const symbolReducer = isEmpty(state) ? createFirstEntryReducer : oneMinueCandleReducer;
+        const { symbol } = data;
+        const symbolReducer = isEmpty(state[symbol]) ? snapshotCandleReducer : updateReducer;
         const result = symbolReducer(state[symbol], data);
-        console.log(state);
+
         return {
           ...state,
           [symbol]: result,

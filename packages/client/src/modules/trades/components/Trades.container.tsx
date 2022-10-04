@@ -4,6 +4,8 @@ import Trades from './Trades';
 import { getTrades } from 'modules/trades/selector';
 
 const mapStateToProps = (state: RootState) => {
+  console.log(state.trades)
+  debugger
   const trades = getTrades(state);
   return {
     trades,

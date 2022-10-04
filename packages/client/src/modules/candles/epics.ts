@@ -7,8 +7,7 @@ import { Dependencies } from './../redux/store';
 import { Epic, ofType, combineEpics } from 'redux-observable';
 import { isHeaderRow } from 'core/transport/utils';
 import { toTimestamp } from './utils';
-import { CandleActions } from './actions';
-import { getCurrentCurrency } from 'modules/reference-data/selector';
+import { CandleActions, CandleData } from './actions';
 import { WsMessage, WS_ACTION_TYPES } from './../../core/transport/actions';
 
 interface ICandles {
@@ -19,20 +18,24 @@ interface ICandles {
   }[];
 }
 
-let candles: ICandles = {};
-let prevMinute = 0;
+interface ISymbol {
+  [symbol: string]: number;
+}
 
-const candleEpics: Epic<Actions, Actions | never, RootState, Dependencies> = (action$, state$, { connection }) =>
+let candles: ICandles = {};
+let prevMinute: ISymbol = {};
+let currentMinute: ISymbol = {};
+let lastCandleCloseValue: ISymbol = {};
+
+const candleEpics: Epic<Actions, Actions, RootState, Dependencies> = (action$, state$, { connection }) =>
   action$.pipe(
     ofType(WS_ACTION_TYPES.WS_MESSAGE),
     switchMap(action => {
-      const symbol = getCurrentCurrency(state$.value);
-      const data = createCandles(action as WsMessage, symbol as string);
+      const data = create1MCandles(action as WsMessage);
 
       return from([
         CandleActions.subscribeToSymbol({
-          data,
-          symbol,
+          data: data as CandleData,
           timeframe: '5m',
         }),
       ]);
@@ -41,68 +44,65 @@ const candleEpics: Epic<Actions, Actions | never, RootState, Dependencies> = (ac
 
 export default combineEpics(candleEpics);
 
-/**
- *
- * @param action
- * @returns
- */
-function createCandles(action: WsMessage, symbol: string) {
+function create1MCandles(action: WsMessage) {
   const [currency, timestamp, bid, , , , , volume] = action.payload;
 
   if (isHeaderRow(action.payload)) {
-    return [];
+    return undefined;
   }
 
   const date = new Date(timestamp);
-  const currentMinute = date.getMinutes();
+  currentMinute[currency] = date.getMinutes();
 
-  if (currency === symbol) {
-    if (prevMinute + 1 === currentMinute) {
-      prevMinute = currentMinute;
+  if (prevMinute[currency] + 1 === currentMinute[currency]) {
+    prevMinute[currency] = currentMinute[currency];
 
-      const firstElement = candles[currency][0];
-      const lastElement = candles[currency].slice(candles[currency].length - 1);
-      const close = lastElement[0].bid;
-      const openValues = candles[currency]?.map(element => element.bid);
-      const high = Math.max(...openValues);
-      const low = Math.min(...openValues);
-      const open = firstElement.bid;
-      const timestamp = lastElement[0].timestamp;
-      const volume = candles[currency]?.reduce((prev, curr) => {
-        return prev + curr.volume;
-      }, 0);
-      
-      // return a 1m candle
-      return {
-        timestamp,
-        open,
-        close,
-        high,
-        low,
-        volume,
-      };
-    } else {
-      prevMinute = currentMinute;
+    const firstElement = candles[currency][0];
+    const lastElement = candles[currency].slice(candles[currency].length - 1);
+    const close = lastElement[0].bid;
+    const open = lastCandleCloseValue[currency] ? lastCandleCloseValue[currency] : firstElement.bid;
+    const bidValues = candles[currency]?.map(element => element.bid);
+    // chart looks better without the max and the min
+    const high = open; //Math.max(...openValues);
+    const low = close; //Math.min(...openValues);
+    const timestamp = lastElement[0].timestamp;
+    const volume = candles[currency]?.reduce((prev, curr) => {
+      return prev + curr.volume;
+    }, 0);
 
-      // add a 1ms candle
-      if (isEmpty(candles[currency])) {
-        candles[currency] = [
-          {
-            bid: parseFloat(bid),
-            timestamp: toTimestamp(timestamp),
-            volume: parseFloat(volume),
-          },
-        ];
-      } else {
-        // update candles
-        const _candles = candles[currency]?.slice();
-        _candles?.push({
+    lastCandleCloseValue[currency] = close;
+
+    // return a 1m candle
+    return {
+      timestamp,
+      open,
+      close,
+      high,
+      low,
+      volume,
+      symbol: currency,
+    };
+  } else {
+    prevMinute[currency] = currentMinute[currency];
+
+    // add a 1ms candle
+    if (isEmpty(candles[currency])) {
+      candles[currency] = [
+        {
           bid: parseFloat(bid),
           timestamp: toTimestamp(timestamp),
           volume: parseFloat(volume),
-        });
-        candles[currency] = _candles;
-      }
+        },
+      ];
+    } else {
+      // update candles
+      const _candles = candles[currency]?.slice();
+      _candles?.push({
+        bid: parseFloat(bid),
+        timestamp: toTimestamp(timestamp),
+        volume: parseFloat(volume),
+      });
+      candles[currency] = _candles;
     }
   }
 }

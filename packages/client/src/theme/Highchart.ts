@@ -2,19 +2,6 @@ import * as Highcharts from 'highcharts/highstock'
 import Palette from './style'
 
 (Highcharts as any).theme = {
-  colors: [
-    '#2b908f',
-    '#90ee7e',
-    '#f45b5b',
-    '#7798BF',
-    '#aaeeee',
-    '#ff0066',
-    '#eeaaee',
-    '#55BF3B',
-    '#DF5353',
-    '#7798BF',
-    '#aaeeee',
-  ],
   chart: {
     backgroundColor: {
       // linearGradient: '{ x1: 0, y1: 0, x2: 1, y2: 1 }',
@@ -51,7 +38,6 @@ import Palette from './style'
     tickColor: '#707073',
     tickWidth: 1,
     title: {
-      text: 'Bid Prices',
       style: {
         color: '#A0A0A3',
       },

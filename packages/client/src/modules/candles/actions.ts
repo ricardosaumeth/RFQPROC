@@ -4,9 +4,18 @@ export enum CANDLE_ACTION_TYPES {
   CANDLE_SUBSCRIBE_TO_SYMBOL = 'CANDLE_SUBSCRIBE_TO_SYMBOL',
 }
 
-export interface SubscribeToSymbolActionPayload {
-  data: any;
+export interface CandleData {
+  timestamp: number;
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  volume: number;
   symbol: string;
+}
+
+export interface SubscribeToSymbolActionPayload {
+  data: CandleData;
   timeframe: '1m' | '5m' | '15m' | '30m' | '1h' | '3h' | '6h' | '12h' | '1D' | '7D' | '14D' | '1M';
 }
 

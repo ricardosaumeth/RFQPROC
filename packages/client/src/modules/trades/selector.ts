@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 export const tradesSelector = (state: RootState) => state.trades;
 
-export const getTrades = createSelector(tradesSelector, trade => {
+export const getTrades = createSelector(tradesSelector, trade => {  
   if (trade?.currency && Array.isArray(trade?.currency)) {
     return trade?.currency;
   } else {
