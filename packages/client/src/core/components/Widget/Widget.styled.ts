@@ -20,3 +20,19 @@ export const Header = styled.div`
 export const Body = styled.div`
   grid-area: body;
 `;
+
+interface VisiblePanelProps {
+  name: string;
+}
+
+export const VisiblePanel = styled.div<VisiblePanelProps>`
+  grid-area: ${props => props.name};
+`;
+
+export const CloseSign = styled.div`
+  position: absolute;
+  right: 2px;
+  top: 0;
+  cursor: pointer;
+  color: ${Palette.Label};
+`;
