@@ -7,7 +7,6 @@ import { Ticker } from 'modules/ticker/types/Ticker';
 import { Container } from './Market.styled';
 import Palette from 'theme/style';
 import OrderPopup from 'core/components/Order';
-import OrderConfirmation from 'core/components/Order/OrderConfirmation';
 
 export interface MarketProps {
   tickers?: Ticker[] | undefined;
@@ -80,7 +79,6 @@ const Market: FC<Props> = props => {
         domLayout={showGridStoryBook ? 'autoHeight' : 'normal'}
       ></AgGridReact>
       <OrderPopup />
-      <OrderConfirmation />
     </Container>
   );
 };

@@ -47,7 +47,7 @@ const OrderConfirmation: FC<OrderConfirmationProps> = props => {
         open={openConfirmationMsg}
         autoHideDuration={1500}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           You {execution} {symbol} {addDecimalPointsToNumberString(notionalAmount)} at a price of {price}

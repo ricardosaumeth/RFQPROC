@@ -6,6 +6,7 @@ import refDataEpics from './reference-data/epics';
 import transportEpics from '../core/transport/epics';
 import sendExecutionEpics from '../services/executions/epics';
 import bookEpics from 'modules/book/epics';
+import candlesEpics from 'modules/candles/epics';
 
 import { AppActions } from './app/actions';
 import { RefDataActions } from './reference-data/actions';
@@ -16,6 +17,7 @@ import { NotionalValueActions } from 'core/components/Order/Notional/action';
 import { SendOrderActions } from 'core/components/Order/OrderConfirmation/action';
 import { ExecutionActions } from '../services/executions/actions';
 import { BookActions } from './book/actions';
+import { CandleActions } from './candles/actions';
 
 import { refDataReducer } from './reference-data/reducer';
 import { tickerReducer } from './ticker/reducer';
@@ -24,13 +26,15 @@ import { selectionReducer } from './selection/reducer';
 import { notionalValueReducer } from '../core/components/Order/Notional/reducer';
 import { sendOrderReducer } from '../core/components/Order/OrderConfirmation/reducer';
 import { bookReducer } from './book/reducer';
+import { candlesReducer } from './candles/reducer';
 
 export const rootEpic = combineEpics(
   appEpics,
   refDataEpics,
   transportEpics,
   sendExecutionEpics,
-  bookEpics
+  bookEpics,
+  candlesEpics
 );
 
 export const rootReducer = combineReducers({
@@ -41,6 +45,7 @@ export const rootReducer = combineReducers({
   notionalValue: notionalValueReducer,
   sendOrder: sendOrderReducer,
   book: bookReducer,
+  candles: candlesReducer,
 });
 
 export type Actions =
@@ -52,6 +57,7 @@ export type Actions =
   | NotionalValueActions
   | SendOrderActions
   | ExecutionActions
-  | BookActions;
+  | BookActions
+  | CandleActions;
 
 export type RootState = ReturnType<typeof rootReducer>;

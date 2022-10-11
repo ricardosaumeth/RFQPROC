@@ -14,6 +14,6 @@ export const Container = styled.div`
 
 export const HeaderMenu = styled.span`
   font-size: x-large;
-  margin-left:15px;
-  cursor:pointer;
+  margin-left: 15px;
+  cursor: pointer;
 `;

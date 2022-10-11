@@ -1,5 +1,5 @@
 import { createEpicMiddleware } from 'redux-observable';
-import { compose, createStore, applyMiddleware } from 'redux';
+import { compose, legacy_createStore as createStore, applyMiddleware } from 'redux';
 import createWsMiddleware from 'core/transport/middleware';
 import { WsConnectionProxy } from 'core/transport/WsConnectionProxy';
 import { Connection } from 'core/transport/Connection';

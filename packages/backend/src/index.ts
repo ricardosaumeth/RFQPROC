@@ -30,7 +30,7 @@ const convertFilesToCsv = () => {
   const opts = {
     quotes: false,
     header: true,
-    columns: ['contract_name', 'timestamp', 'bid', 'ask', 'lastBid', 'lastAsk', 'id'],
+    columns: ['contract_name', 'timestamp', 'bid', 'ask', 'lastBid', 'lastAsk', 'id', 'volume'],
   };
   let csv = Papa.unparse(sortByTimeStamp(allJsonFiles.flat()), opts);
   csv += '\r\n';

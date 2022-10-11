@@ -5,6 +5,7 @@ import { getTrades } from 'modules/trades/selector';
 
 const mapStateToProps = (state: RootState) => {
   const trades = getTrades(state);
+  
   return {
     trades,
   };
