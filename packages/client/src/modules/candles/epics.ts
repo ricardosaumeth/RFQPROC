@@ -71,6 +71,7 @@ function create1MCandles(action: WsMessage) {
     }, 0);
 
     lastCandleCloseValue[currency] = close;
+    candles[currency] = [];
 
     // return a 1m candle
     return {
