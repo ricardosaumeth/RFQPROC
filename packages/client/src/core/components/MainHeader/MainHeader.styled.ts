@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Palette from 'theme/style';
 
 export const Container = styled.div`
-  grid-area: header;
   color: ${Palette.White};
   font-family: FiraSans-MediumItalic;
   background-color: #2d3436;
@@ -15,5 +14,11 @@ export const Container = styled.div`
 export const HeaderMenu = styled.span`
   font-size: x-large;
   margin-left: 15px;
+  cursor:pointer;
+`;
+
+
+export const LockIcon = styled.span`
+  margin-right: 25px;
   cursor: pointer;
 `;

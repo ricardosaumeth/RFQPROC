@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Container, HeaderMenu } from './MainHeader.styled';
+import React, { FC } from 'react';
+import { Container, LockIcon } from './MainHeader.styled';
 import Lock from '@material-ui/icons/Lock';
 import LockOpen from '@material-ui/icons/LockOpen';
 import MainHeaderMenuItemList from './MainHeaderMenuItemList';
@@ -19,19 +19,13 @@ const MainHeader: FC<MainHeaderProps> = props => {
 
   return (
     <Container>
-      <div>
-        <span>RFQPROC</span>
-        {!props.isLocked && (
-          <MainHeaderMenuItemList visibleWidgets={props.visibleWidgets} addWidget={props.addWidget} />
-        )}
-      </div>
-      <div
-        style={{ marginRight: '15px' }}
-        onClick={el => changeLockedStatus(el)}
-        title={(props.isLocked ? 'Unl' : 'L') + 'ock window drag and resize'}
-      >
-        {props.isLocked ? <Lock /> : <LockOpen />}
-      </div>
+        <div>
+          <span>RFQPROC</span>
+          {!props.isLocked && <MainHeaderMenuItemList visibleWidgets={props.visibleWidgets} addWidget={props.addWidget}/>}
+        </div>
+        <LockIcon onClick={el => changeLockedStatus(el)} title={(props.isLocked ? "Unl" : "L") + "ock window drag and resize"}>
+          {props.isLocked ? <Lock/> : <LockOpen/>}
+        </LockIcon>
     </Container>
   );
 };

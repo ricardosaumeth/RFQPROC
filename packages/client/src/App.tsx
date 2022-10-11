@@ -14,6 +14,9 @@ import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import 'theme/fonts.css';
+import RGL, { WidthProvider } from "react-grid-layout";
+
+const ReactGridLayout  = WidthProvider(RGL);
 
 function App() {
   const store = configureStore();
@@ -64,13 +67,13 @@ function App() {
     <Provider store={store}>
       <Container>
         <Content>
-          <MainHeader
-            editLayout={layoutUnlockHandle}
-            isLocked={isLocked}
-            addWidget={addWidgetHandle}
-            visibleWidgets={{ market: marketVisible, trades: tradesVisible, book: bookVisible, candle: candleVisible }}
-          />
-          <GridLayout
+          <MainHeader 
+            editLayout={layoutUnlockHandle} 
+            isLocked={isLocked} 
+            addWidget={addWidgetHandle} 
+            visibleWidgets={{ market: marketVisible, trades: tradesVisible, book: bookVisible, candle: candleVisible }} />
+            
+          <ReactGridLayout 
             className="layout"
             layout={savedLayout}
             autoSize={true}
@@ -78,7 +81,6 @@ function App() {
             rowHeight={100}
             isDraggable={!isLocked}
             isResizable={!isLocked}
-            width={window.innerWidth}
             onLayoutChange={layoutChangeHandler}
             isBounded={true}
             compactType={null}
@@ -91,8 +93,10 @@ function App() {
                   handleClose={isLocked ? undefined : removeWidgetHandle}
                 />
               </VisiblePanel>
-            ))}
-          </GridLayout>
+              )
+            )
+          }
+          </ReactGridLayout>
         </Content>
       </Container>
       <OrderConfirmation />
