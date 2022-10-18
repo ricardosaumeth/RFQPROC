@@ -4,7 +4,16 @@ import HighchartsReact from 'highcharts-react-official';
 import { Container } from './CandlesChart.styled';
 import Palette from 'theme/style';
 import { Candle } from '../types/Candle';
+import dataModule from 'highcharts/modules/data';
+import exportingModule from 'highcharts/modules/exporting';
+import indicators from 'highcharts/indicators/indicators';
+import ema from 'highcharts/indicators/ema';
 import 'theme/Highchart';
+
+dataModule(Highcharts);
+exportingModule(Highcharts);
+indicators(Highcharts);
+ema(Highcharts);
 
 export interface Props {
   candles: Candle[];
@@ -60,6 +69,8 @@ const CandlesChart: FC<Props> = props => {
       series: [
         {
           type: 'candlestick',
+          id: 'ohlc',
+          zIndex: 2,
           data: [],
         },
         {
@@ -110,23 +121,56 @@ const CandlesChart: FC<Props> = props => {
           ...rest,
         }))
         .sort((a: any, b: any) => a.x - b.x);
-      const volumes = candles.map(({ timestamp, volume }) => [timestamp, volume]).sort((a, b) => a[0] - b[0]);
+      const volumes = candles
+        .map(({ timestamp, volume }) => [timestamp, volume])
+        .sort((a, b) => a[0] - b[0]);
       setChartOptions({
         series: [
           {
             type: 'candlestick',
-            name: currency,
+            id: 'ohlc',
+            zIndex: 2,
             data: ohlc,
           },
           {
             type: 'column',
             data: volumes,
           },
+          {
+            type: 'sma',
+            id: 'sma03P',
+            name: 'SMA 03P',
+            linkedTo: 'ohlc',
+            zIndex: 1,
+            marker: {
+              enabled: false
+            },
+            params: {
+              period: 3
+            },
+          },
+          {
+            type: 'sma',
+            id: 'sma10P',
+            name: 'SMA 10P',
+            linkedTo: 'ohlc',
+            params: {
+              period: 10
+            },
+            zIndex: 1,
+            marker: {
+              enabled: false
+            }
+          }
         ],
         plotOptions: {
           candlestick: {
             color: Palette.Negative,
             upColor: Palette.Positive,
+          },
+          series: {
+            pointInterval: 1000 * 60 * 1, // data every minute
+            turboThreshold: 0
           },
         },
       });
