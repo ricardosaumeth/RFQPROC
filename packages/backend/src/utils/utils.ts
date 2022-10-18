@@ -5,8 +5,18 @@ let lastBid = 0;
 let lastAsk = 0;
 let counter = 0;
 
-export const sortByTimeStamp = (response: Currency[]) =>
-  response.sort((x, y) => {
+export const sortByTimeStamp = (response: Currency[]) => {
+  const startTradingHour = 8;
+  const endTradingHour = 17;
+  const tradingHours = response.filter(x => {
+    const date = new Date(x.timestamp);
+    const hour = date.getHours()
+    if (hour >= startTradingHour && hour < endTradingHour) {
+      return x
+    }
+  })
+
+   return tradingHours.sort((x, y) => {
     const a = new Date(x.timestamp);
     const b = new Date(y.timestamp);
     if (a > b) return 1;
@@ -14,6 +24,7 @@ export const sortByTimeStamp = (response: Currency[]) =>
 
     return 0;
   });
+}
 
 /**
  *

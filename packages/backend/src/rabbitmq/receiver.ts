@@ -18,7 +18,7 @@ amqp.connect('amqp://localhost', (connError: string, connection: Connection) => 
       durable: true,
     });
 
-    channel.prefetch(1);
+    channel.prefetch(3);
 
     channel.consume(
       queue,
