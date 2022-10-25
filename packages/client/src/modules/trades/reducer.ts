@@ -14,9 +14,9 @@ export interface TradesState {
 const initialState: TradesState = {};
 
 function updateState(state: any, action: WsMessage) {
-  const [currency, timestamp, bid, ask, lastBid, lastAsk, id] = action.payload;
+  const [currency, timestamp, bid, ask, lastBid, lastAsk, id, volume] = action.payload;
 
-  const newOrUpdatedTrade = { currency, timestamp, bid, ask, lastBid, lastAsk, id };
+  const newOrUpdatedTrade = { currency, timestamp, bid, ask, lastBid, lastAsk, id, volume };
 
   if (state?.currency && Array.isArray(state?.currency)) {
     const existingTradeIndex = state.currency.findIndex((t: Ticker) => t.id === id);

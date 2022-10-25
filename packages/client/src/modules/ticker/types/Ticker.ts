@@ -6,4 +6,5 @@ export interface Ticker {
   ask?: number;
   lastBid?: number;
   lastAsk?: number;
+  volume?: number;
 }

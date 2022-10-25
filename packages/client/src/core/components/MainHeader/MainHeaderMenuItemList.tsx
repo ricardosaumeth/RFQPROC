@@ -50,7 +50,7 @@ const MainHeaderMenuItemList: FC<MainHeaderMenuItemListProps> = props => {
     prevOpen.current = open;
   }, [open]);
 
-  const widgets = visibleWidgets || { market: false, trades: false, book: false, candle: false };
+  const widgets = visibleWidgets || { market: false, trades: false, book: false, candle: false, depth: false };
 
   return (
     <HeaderMenu ref={anchorRef}>
@@ -97,6 +97,9 @@ const MainHeaderMenuItemList: FC<MainHeaderMenuItemListProps> = props => {
                   </MenuItem>
                   <MenuItem onClick={el => handleClose(el, 'book')} disabled={widgets['book']}>
                     {KnownComponents['book']}
+                  </MenuItem>
+                  <MenuItem onClick={el => handleClose(el, 'depth')} disabled={widgets['depth']}>
+                    {KnownComponents['depth']}
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

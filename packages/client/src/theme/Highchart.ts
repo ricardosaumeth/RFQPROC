@@ -1,10 +1,22 @@
-import * as Highcharts from 'highcharts/highstock'
-import Palette from './style'
+import * as Highcharts from 'highcharts';
+import Palette from './style';
 
 (Highcharts as any).theme = {
+  colors: [
+    '#2b908f',
+    '#90ee7e',
+    '#f45b5b',
+    '#7798BF',
+    '#aaeeee',
+    '#ff0066',
+    '#eeaaee',
+    '#55BF3B',
+    '#DF5353',
+    '#7798BF',
+    '#aaeeee',
+  ],
   chart: {
     backgroundColor: {
-      // linearGradient: '{ x1: 0, y1: 0, x2: 1, y2: 1 }',
       stops: [
         [0, '#2a2a2b'],
         [1, '#3e3e40'],
@@ -174,6 +186,6 @@ import Palette from './style'
     trackBackgroundColor: '#404043',
     trackBorderColor: '#404043',
   },
-}
+};
 
-Highcharts.setOptions((Highcharts as any).theme)
+Highcharts.setOptions((Highcharts as any).theme);

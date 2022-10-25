@@ -8,7 +8,7 @@ import dataModule from 'highcharts/modules/data';
 import exportingModule from 'highcharts/modules/exporting';
 import indicators from 'highcharts/indicators/indicators';
 import ema from 'highcharts/indicators/ema';
-import 'theme/Highchart';
+import 'theme/Highstock';
 
 dataModule(Highcharts);
 exportingModule(Highcharts);
@@ -32,7 +32,7 @@ const CandlesChart: FC<Props> = props => {
             setTimeout(this.reflow.bind(this), 0);
           },
         },
-        height: (6.5 / 16) * 100 + '%',
+        height: (4.5 / 16) * 100 + '%',
       },
       time: {
         useUTC: false,

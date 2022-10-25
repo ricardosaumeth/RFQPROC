@@ -3,7 +3,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { Container } from './Book.styled';
 import { ColDef } from 'ag-grid-community';
 import { priceFormatter } from 'modules/ag-grid/formatter';
-import { Order } from '../types/order';
+import { Order } from '../../types/order';
 
 export interface BookProps {
   orders: Order[];
