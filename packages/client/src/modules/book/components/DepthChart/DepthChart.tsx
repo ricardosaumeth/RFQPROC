@@ -7,9 +7,18 @@ import { uniq } from 'lodash';
 import { DateTime } from 'luxon';
 import 'theme/Highchart';
 
-const CHART_TYPE = 'column';
+// Load Highcharts modules
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/highcharts-more')(Highcharts);
 
+const CHART_TYPE = 'packedbubble';
+//const CHART_TYPE = 'column';
 const MAX_TRADES = 5;
+
+const enum TradeDirection {
+  Bid = 'bid',
+  Ask = 'ask'
+}
 
 export interface Props {
   trades: Ticker[];
@@ -18,18 +27,24 @@ export interface Props {
 
 const DepthChart: FC<Props> = props => {
   const { trades, currency } = props;
-  const [volumeData, setVolumeChart] = useState<Ticker[]>([]);
+  const [tradesData, setTradesData] = useState<Ticker[]>([]);
 
-  const yValues: any = volumeData?.slice(0, MAX_TRADES).map(order => order?.bid?.toString());
-  const xValues = volumeData
+  const asks = _getPrice(tradesData?.slice(0, MAX_TRADES), TradeDirection.Ask);
+  const bids = _getPrice(tradesData?.slice(0, MAX_TRADES), TradeDirection.Bid);
+
+  const yValues = asks;
+  const xValues = tradesData
     ?.slice(0, MAX_TRADES)
     .map(order =>
       DateTime.fromISO(order?.timestamp?.toString() as string).toLocaleString(DateTime.TIME_24_WITH_SECONDS)
     )
     .filter(x => x !== 'Invalid DateTime');
+  
+  const bidTitle = bids[0]?.toString();
+  const askTitle = asks[0]?.toString();    
 
   const data_ = uniq(
-    volumeData
+    tradesData
       ?.slice(0, MAX_TRADES)
       .map((order: any) => {
         return parseFloat(order?.volume);
@@ -45,7 +60,7 @@ const DepthChart: FC<Props> = props => {
       useUTC: false,
     },
     title: {
-      text: `PRICE: ${yValues[0]?.toString()}`,
+      text: `BID: ${bidTitle} - ASK: ${askTitle}`,
       style: {
         color: '#FFF',
       },
@@ -61,7 +76,7 @@ const DepthChart: FC<Props> = props => {
     series: [
       {
         type: CHART_TYPE,
-        name: currency,
+        name: `VOLUME: ${currency}`,
         data: data_,
       },
     ],
@@ -86,10 +101,10 @@ const DepthChart: FC<Props> = props => {
   });
 
   useEffect(() => {
-    if (volumeData?.length === 1) {
+    if (tradesData?.length === 1) {
       setChartOptions({
         title: {
-          text: `PRICE: ${yValues[0]?.toString()}`,
+          text: `BID: ${bidTitle} - ASK: ${askTitle}`,
         },
         xAxis: {
           categories: xValues,
@@ -97,15 +112,15 @@ const DepthChart: FC<Props> = props => {
         series: [
           {
             type: CHART_TYPE,
-            name: currency,
+            name: `VOLUME: ${currency}`,
             data: data_,
           },
         ],
       });
-    } else if (volumeData?.length > 1) {
+    } else if (tradesData?.length > 1) {
       setChartOptions({
         title: {
-          text: `PRICE: ${yValues[0]?.toString()}`,
+          text: `BID: ${bidTitle} - ASK: ${askTitle}`,
         },
         xAxis: {
           categories: xValues,
@@ -113,13 +128,13 @@ const DepthChart: FC<Props> = props => {
         series: [
           {
             type: CHART_TYPE,
-            name: currency,
+            name: `VOLUME: ${currency}`,
             data: data_,
           },
         ],
       });
     }
-  }, [volumeData, data_, xValues, yValues]);
+  }, [tradesData, data_, xValues, yValues]);
 
   useEffect(() => {
     const loadDataSeries = trades?.map(order => {
@@ -127,12 +142,12 @@ const DepthChart: FC<Props> = props => {
     });
 
     if (loadDataSeries) {
-      setVolumeChart(
+      setTradesData(
         loadDataSeries
           .reverse()
           .slice(0, MAX_TRADES)
-          .map(x => {
-            return x;
+          .map(trades => {
+            return trades;
           })
           .filter(x => x.volume !== undefined)
       );
@@ -140,7 +155,7 @@ const DepthChart: FC<Props> = props => {
   }, [trades]);
 
   useEffect(() => {
-    setVolumeChart([]);
+    setTradesData([]);
   }, [currency]);
 
   return (
@@ -151,3 +166,7 @@ const DepthChart: FC<Props> = props => {
 };
 
 export default DepthChart;
+
+function _getPrice<T extends Ticker, K extends keyof T>(data: T[], direction: K) {
+  return data.map(order => order[direction]);
+}
