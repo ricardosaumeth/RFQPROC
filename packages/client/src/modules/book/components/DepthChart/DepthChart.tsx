@@ -12,7 +12,7 @@ require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/highcharts-more')(Highcharts);
 
 const CHART_TYPE = 'packedbubble';
-//const CHART_TYPE = 'column';
+// const CHART_TYPE = 'column';
 const MAX_TRADES = 5;
 
 const enum TradeDirection {
@@ -46,9 +46,7 @@ const DepthChart: FC<Props> = props => {
   const data_ = uniq(
     tradesData
       ?.slice(0, MAX_TRADES)
-      .map((order: any) => {
-        return parseFloat(order?.volume);
-      })
+      .map(order => parseFloat(order?.volume?.toString() as string))
       .filter(x => x !== undefined)
   );
 
