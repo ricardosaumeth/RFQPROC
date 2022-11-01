@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: .
+        path: build
 
   deploy:
     permissions:
@@ -68,7 +68,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: node-app
-        path: build
 
     - name: 'Deploy to Azure WebApp'
       id: deploy-to-webapp 
