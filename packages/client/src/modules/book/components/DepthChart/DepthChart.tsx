@@ -12,7 +12,6 @@ require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/highcharts-more')(Highcharts);
 
 const CHART_TYPE = 'packedbubble';
-// const CHART_TYPE = 'column';
 const MAX_TRADES = 5;
 
 const enum TradeDirection {
@@ -29,8 +28,8 @@ const DepthChart: FC<Props> = props => {
   const { trades, currency } = props;
   const [tradesData, setTradesData] = useState<Ticker[]>([]);
 
-  const asks = _getPrice(tradesData?.slice(0, MAX_TRADES), TradeDirection.Ask);
-  const bids = _getPrice(tradesData?.slice(0, MAX_TRADES), TradeDirection.Bid);
+  const asks = _getPrices(tradesData?.slice(0, MAX_TRADES), TradeDirection.Ask);
+  const bids = _getPrices(tradesData?.slice(0, MAX_TRADES), TradeDirection.Bid);
 
   const yValues = asks;
   const xValues = tradesData
@@ -165,6 +164,6 @@ const DepthChart: FC<Props> = props => {
 
 export default DepthChart;
 
-function _getPrice<T extends Ticker, K extends keyof T>(data: T[], direction: K) {
+function _getPrices<T extends Ticker, K extends keyof T>(data: T[], direction: K) {
   return data.map(order => order[direction]);
 }
